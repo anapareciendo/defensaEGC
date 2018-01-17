@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block encabezado %}
+	<h2>Detalles de Votacion</h2>
+{% endblock %}
+
+{% block contenido %}
+	<h3>Título: {{votacion.title}}</h3>
+	<p>Descripción: {{votacion.description}}</p>
+	<p>Fecha de inicio: {{votacion.startDate}}</p>
+	<p>Fecha de fin: {{votacion.endDate}}</p>
+	<p>Censo: {{votacion.census.title}}</p>
+	<p>Votos actuales: {{votacion.votos}}</p>
+	<h4>Preguntas:</h4>
+	{% for pregunta in preguntas %}
+		<p><strong>{{pregunta.title}}</strong>
+		{% if not pregunta.multiple and pregunta.optional %}
+			Opcional
+		{% endif %}
+		{% if pregunta.multiple and not pregunta.optional %}
+			Múltiple
+		{% endif %}
+		{% if pregunta.multiple and pregunta.optional %}
+			Múltiple, Opcional
+		{% endif %}
+		</p>
+		<p>{{pregunta.description}}</p>
+		<i>Opciones:</i>
+		<ol>
+			{% for opcion in opciones %}
+				{% if opcion.question == pregunta %}
+					<li>{{opcion.description}}</li>
+				{% endif %}
+			{% endfor %}
+		</ol>
+		{% if admin %}
+			<a href="/nuevaopcion/{{pregunta.id}}">Nueva Opción</a>
+		{% endif %}
+	{% endfor %}
+{% endblock %}
+	

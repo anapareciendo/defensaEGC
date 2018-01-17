@@ -1,0 +1,25 @@
+language: python
+
+sudo: required
+
+python:
+    - "2.7.10"
+
+install: "pip install -r requirements.txt"
+
+script: py.test ./principal/tests.py
+
+services:
+  - mysql
+
+before_script:
+  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('your_password') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
+
+before_install:
+  - export DJANGO_SETTINGS_MODULE=admvotes.settings
+
+  - mysql -e 'DROP DATABASE IF EXISTS votaciones_splc'
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS votaciones_splc;'   
+  - mysql -u root --default-character-set=utf8 votaciones_splc < scripts/script_create_votaciones_splc.sql
+  - mysql -u root --default-character-set=utf8 votaciones_splc < scripts/populate.sql
+

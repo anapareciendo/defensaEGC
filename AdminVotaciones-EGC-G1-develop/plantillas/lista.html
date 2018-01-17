@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block contenido %}
+	<h2>Lista de Votaciones</h2>
+	<strong style="color:red;">{{mensaje}}</strong>
+	<hr>
+		{% for dato in votaciones %}
+			<h3><a href={{dato.id}}>Titulo: {{dato.title}}</a></h3>
+			<p>Descripcion: {{dato.description}}</p>
+			<p>Fecha de inicio: {{dato.startDate}}</p>
+			<p>Fecha de fin: {{dato.endDate}}</p>
+			{% if inicio %}
+				<p><a href="https://g1cabinaweb.egc.duckdns.org/cabin/{{dato.id}}">Votar</a></p>
+			{% endif %}
+			{% if preguntas %}
+				 <a href="/nuevapregunta/{{dato.id}}">Nueva Pregunta</a>
+			{% endif %}
+			<hr>
+		{% empty %}
+			<li>No hay votaciones que mostrar.</li>
+		{% endfor %}
+{% endblock %}
+	
