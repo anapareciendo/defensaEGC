@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^nuevapregunta/(?P<poll_id>\d+)/','principal.views.nueva_pregunta'),
     url(r'^nuevaopcion/(?P<question_id>\d+)/','principal.views.nueva_opcion'),
     url(r'^(?P<poll_id>\d+)/','principal.views.detalles_votacion'),
+    url(r'^votacionestodas/','principal.views.listar_todas_votaciones'),
     # url(r'^admvotes/', include('admvotes.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:

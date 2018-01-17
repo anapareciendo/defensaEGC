@@ -153,3 +153,10 @@ def listar_votaciones(data, message):
                 if censo == votacion.census:
                     votaciones.append(votacion)
     return render_to_response("lista.html",{"votaciones":votaciones, "inicio":True, 'mensaje':message})
+
+def listar_todas_votaciones(data, message):
+    uaid = data['usuario']['id']
+    votaciones = []
+    for votacion in Poll.objects.all():
+        None == None
+    return render_to_response("listatodas.html",{"votaciones":votaciones, "inicio":True, 'mensaje':message})
