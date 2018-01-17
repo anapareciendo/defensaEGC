@@ -13,6 +13,7 @@ from datetime import datetime
 
 import json
 import urllib2 
+from django.core.context_processors import request
 
 
 URL_COOKIE="https://g1login.egc.duckdns.org/cookies/"
@@ -154,9 +155,20 @@ def listar_votaciones(data, message):
                     votaciones.append(votacion)
     return render_to_response("lista.html",{"votaciones":votaciones, "inicio":True, 'mensaje':message})
 
-def listar_todas_votaciones(data, message):
-    uaid = data['usuario']['id']
-    votaciones = []
-    for votacion in Poll.objects.all():
-        None == None
-    return render_to_response("listatodas.html",{"votaciones":votaciones, "inicio":True, 'mensaje':message})
+def listar_todas_votaciones(request):
+    session_id=request.COOKIES.get('session_id')
+    if session_id is not None:
+        response = urllib2.urlopen(URL_COOKIE+session_id).read()
+        data = json.loads(response)
+        if data['codigo'] == 1:
+            votaciones = busca_votaciones()
+            return render_to_response("lista.html",{"votaciones":votaciones})
+        else:
+            return HttpResponseRedirect('https://g1login.egc.duckdns.org/login')
+    else:
+        return HttpResponseRedirect('https://g1login.egc.duckdns.org/login')
+    
+def busca_votaciones():
+    res = Poll.objects.all()
+    return []
+    
